@@ -1,27 +1,29 @@
 const mongoose = require('mongoose');
-const mongoURI =  "mongodb://root:<your-password>@127.0.0.1:27017";
+require('dotenv').config(); // Load .env
 
-const connectToMongo = async (retryCount) => {
+const mongoURI = process.env.MONGO_URI;
+const dbName = process.env.DB_NAME;
+
+const connectToMongo = async (retryCount = 0) => {
     const MAX_RETRIES = 3;
-    const count = retryCount ?? 0;
-    try {
-        await mongoose.connect(mongoURI, { dbName: 'stayhealthybeta1'});
-        console.info('Connected to Mongo Successfully')
 
+    try {
+        await mongoose.connect(mongoURI, {
+            dbName,
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.info('✅ Connected to Mongo Successfully');
         return;
     } catch (error) {
-        console.error(error);
+        console.error(`❌ Connection attempt ${retryCount + 1} failed:`, error);
 
-        const nextRetryCount = count + 1;
-
-        if (nextRetryCount >= MAX_RETRIES) {
-            throw new Error('Unable to connect to Mongo!');
+        if (retryCount + 1 >= MAX_RETRIES) {
+            throw new Error('❌ Unable to connect to Mongo!');
         }
 
-        console.info(`Retrying, retry count: ${nextRetryCount}`)
-
-        return await connectToMongo(nextRetryCount);
-
+        console.info(`Retrying, retry count: ${retryCount + 2}`);
+        return await connectToMongo(retryCount + 1);
     }
 };
 
