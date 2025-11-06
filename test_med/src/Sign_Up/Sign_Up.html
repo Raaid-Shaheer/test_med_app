@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <title>Sign-Up Form</title>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="Sign_Up.css">
+  </head>
+  <body>
+    <div class="container">
+    <div class="sign-up-container">
+        <h1>Sign Up</h1>
+        <h3>Already a member? <a href="#">Login</a></h3>
+    </div>
+    
+      <form class="sign-up-form">
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <input type="text" name="role" id="role" required placeholder="Enter your Role" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" name="name" id="name" required placeholder="Enter your Name" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="text" name="email" id="email" required placeholder="Enter your Email" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input type="number" name="phone" id="phone" placeholder="Enter your Phone Number" class="form-control">
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" name="password" id="password" required placeholder="Enter your Password" class="form-control">
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="submit-btn btn">Submit</button>
+          <button type="reset" class="reset-btn btn">Reset</button>
+      </div>
+    </form>
+    </div>
+  </body> 
+</html>

@@ -1,0 +1,70 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.container{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sign-up-container{
+  
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.sign-up-form {
+  display: flex;
+  flex-direction: column;     /* Stack inputs vertically */
+  align-items: center;        /* Center horizontally */
+  justify-content: center;    /* Center vertically (optional) */
+  border: 1px solid;
+  width: 20%;
+  padding: 2rem;
+  background-color: aqua;
+  
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column; 
+  margin-bottom: 15px;
+  gap: 8px;
+  font-size: 1.2rem;
+  
+}
+
+.form-control{
+  padding: .5rem;
+}
+.btn-group{
+  display: flex;
+  gap: 15px;
+}
+
+.btn{
+  padding: .5rem .5rem;
+  border-radius: 10%;
+  margin: auto;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn:hover{
+  background-color: white;
+  color: black;
+  scale: 1.2;
+}
+.submit-btn{
+  background-color: blue;
+  color: white;
+}
+
+.reset-btn{
+  background-color: red;
+  color: white;
+}
