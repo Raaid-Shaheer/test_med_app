@@ -5,6 +5,32 @@ body {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   background-color: #f4f6f8; /* subtle page background */
 }
+/* Heading Section inside signup-grid */
+.signup-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.signup-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #1a1a1a;
+}
+
+.signup-header h3 {
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.signup-header h3 span {
+  color: #2190FF;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signup-header h3 span:hover {
+  text-decoration: underline;
+}
 
 /* Container */
 .container {
@@ -18,34 +44,34 @@ body {
 }
 
 /* Sign Up Heading Section */
-.sign-up-container {
+.signup-grid {
   text-align: center;
   margin-bottom: 30px;
 }
 
-.sign-up-container h1 {
+.signup-grid h1 {
   font-size: 2.5rem;
   margin-bottom: 0.5rem;
   color: #1a1a1a;
 }
 
-.sign-up-container h3 {
+.signup-grid h3 {
   font-weight: 400;
   font-size: 1rem;
 }
 
-.sign-up-container h3 a {
+.signup-grid h3 a {
   color: #2190FF;
   text-decoration: none;
   font-weight: 600;
 }
 
-.sign-up-container h3 a:hover {
+.signup-grid h3 a:hover {
   text-decoration: underline;
 }
 
 /* Sign Up Form */
-.sign-up-form {
+.signup-form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -59,7 +85,7 @@ body {
   transition: transform 0.3s ease;
 }
 
-.sign-up-form:hover {
+.signup-form:hover {
   transform: scale(1.02);
 }
 
@@ -137,20 +163,21 @@ body {
   color: red;
   font-size: 0.9rem;
   margin-top: 4px;
+  text-align: left;
 }
 
 /* Responsive */
 @media screen and (max-width: 600px) {
-  .sign-up-form {
+  .signup-form {
     width: 90%;
     padding: 1.5rem;
   }
 
-  .sign-up-container h1 {
+  .signup-grid h1 {
     font-size: 2rem;
   }
 
-  .sign-up-container h3 {
+  .signup-grid h3 {
     font-size: 0.9rem;
   }
 }
