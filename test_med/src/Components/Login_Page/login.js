@@ -1,22 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
+import { Link, useNavigate } from "react-router-dom";
+// import { API_URL } from '../../config'; // Uncomment when backend is connected
 
 const Login = () => {
-  // State to store form values
+  // State variables for email and password
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  // State to store errors
   const [errors, setErrors] = useState({});
 
-  // Regex for simple email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  // If user is already logged in, redirect to home
+  useEffect(() => {
+    if (sessionStorage.getItem("auth-token")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  // Dummy backend logic (replace with actual API when DB is ready)
+  const login = async (e) => {
     e.preventDefault();
     const validationErrors = {};
 
     // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email) {
       validationErrors.email = "Email is required";
     } else if (!emailRegex.test(email)) {
@@ -32,11 +40,25 @@ const Login = () => {
 
     setErrors(validationErrors);
 
-    // If no errors, form is valid
     if (Object.keys(validationErrors).length === 0) {
-      console.log("Login successful:", { email, password });
-      // Here you can call your backend API
-      alert("Login successful!");
+      // Dummy success response (replace with actual API call)
+      // const res = await fetch(`${API_URL}/api/auth/login`, { ... });
+      // const json = await res.json();
+      const json = { authtoken: "dummy-token" };
+
+      if (json.authtoken) {
+        sessionStorage.setItem("auth-token", json.authtoken);
+        sessionStorage.setItem("email", email);
+
+        // Optional: store username extracted from email for Navbar
+        const nameFromEmail = email.split("@")[0];
+        sessionStorage.setItem("username", nameFromEmail);
+
+        navigate("/");
+        window.location.reload();
+      } else {
+        alert("Login failed. Please check your credentials.");
+      }
     }
   };
 
@@ -45,11 +67,14 @@ const Login = () => {
       <div className="login-container">
         <h1>Login</h1>
         <h3>
-          Not a member? <a href="/signup">Sign Up</a>
+          Not a member?{" "}
+          <Link to="/signup" style={{ color: "#2190FF" }}>
+            Sign Up
+          </Link>
         </h3>
       </div>
 
-      <form className="login-form" onSubmit={handleSubmit}>
+      <form className="login-form" onSubmit={login}>
         {/* Email Field */}
         <div className="form-group">
           <label htmlFor="email">Email:</label>
