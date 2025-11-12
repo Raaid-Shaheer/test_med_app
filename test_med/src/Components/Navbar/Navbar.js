@@ -63,6 +63,17 @@ const Navbar = () => {
               Reviews
             </button>
           </li>
+          
+          {/* 🔹 Instant Consultation Link Added */}
+          <li className="link-item">
+            <button 
+              onClick={() => handleNavigation("/instant-consultation")} 
+              className="link-button"
+              
+            >
+              Instant Consultation
+            </button>
+          </li>
 
           {/* Conditional Rendering */}
           {!isLoggedIn ? (
