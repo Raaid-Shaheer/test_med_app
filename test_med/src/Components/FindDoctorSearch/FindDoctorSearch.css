@@ -1,55 +1,63 @@
-.finddoctor-container {
-  max-width: 600px;
-  margin: 50px auto;
-  text-align: center;
-  position: relative;
+.find-doctor-page {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  color: #414146;
 }
 
-.search-bar-container {
+.search-container {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  margin-bottom: 30px;
 }
 
 .search-input {
-  width: 80%;
-  padding: 10px;
-  border-radius: 5px 0 0 5px;
+  padding: 10px 12px;
+  width: 300px;
   border: 1px solid #ccc;
+  border-radius: 4px;
   font-size: 16px;
 }
 
-.search-button {
+.search-btn {
+  margin-left: 8px;
   padding: 10px 15px;
-  border-radius: 0 5px 5px 0;
-  border: 1px solid #ccc;
-  border-left: none;
   background-color: #2190ff;
   color: white;
-  font-size: 16px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
 }
 
-.dropdown-menu {
+.search-btn:hover {
+  background-color: #1b75d1;
+}
+
+.dropdown {
   position: absolute;
-  top: 45px; /* just below the input */
-  width: 80%;
-  background: white;
+  top: 42px;
+  width: 300px;
+  background-color: #fff;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 4px;
+  z-index: 100;
   max-height: 200px;
   overflow-y: auto;
-  z-index: 10;
 }
 
 .dropdown-item {
-  padding: 10px;
-  text-align: left;
+  padding: 8px 12px;
   cursor: pointer;
 }
 
 .dropdown-item:hover {
   background-color: #f0f0f0;
+}
+
+.doctor-results {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
 }

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import DoctorCard from "../DoctorCard/DoctorCard"; // Adjust path if needed
 import "./FindDoctorSearch.css";
 
-const initSpecialities = [
+const SPECIALITIES = [
   "Dentist",
   "Gynecologist/Obstetrician",
   "General Physician",
@@ -11,24 +12,35 @@ const initSpecialities = [
   "Ayurveda",
 ];
 
-const FindDoctorSearch = ({ onSearch }) => {
+const FindDoctorSearch = () => {
   const [searchText, setSearchText] = useState("");
+  const [doctors, setDoctors] = useState([]);
+  const [filteredDoctors, setFilteredDoctors] = useState([]);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  const handleSelect = (speciality) => {
-    setSearchText(speciality);
+  // Fetch doctor data once
+  useEffect(() => {
+    fetch("https://api.npoint.io/9a5543d36f1460da2f63")
+      .then((res) => res.json())
+      .then((data) => setDoctors(data))
+      .catch((err) => console.log(err));
+  }, []);
+
+  // Filter doctors based on search
+  const handleSearch = (text) => {
+    setSearchText(text);
+    const filtered = doctors.filter((doc) =>
+      doc.speciality.toLowerCase().includes(text.toLowerCase())
+    );
+    setFilteredDoctors(filtered);
     setIsDropdownVisible(false);
-    if (onSearch) onSearch(speciality); // optional callback
   };
 
-  const filteredSpecialities = initSpecialities.filter((spec) =>
-    spec.toLowerCase().includes(searchText.toLowerCase())
-  );
-
   return (
-    <div className="finddoctor-container">
+    <div className="find-doctor-page">
       <h1>Find a doctor and consult immediately</h1>
-      <div className="search-bar-container">
+
+      <div className="search-container">
         <input
           type="text"
           placeholder="Search doctors, clinics, hospitals..."
@@ -38,25 +50,32 @@ const FindDoctorSearch = ({ onSearch }) => {
           onBlur={() => setTimeout(() => setIsDropdownVisible(false), 150)}
           className="search-input"
         />
-        <button
-          className="search-button"
-          onClick={() => onSearch && onSearch(searchText)}
-        >
-          🔍
+        <button onClick={() => handleSearch(searchText)} className="search-btn">
+          Search
         </button>
 
-        {isDropdownVisible && filteredSpecialities.length > 0 && (
-          <div className="dropdown-menu">
-            {filteredSpecialities.map((spec) => (
+        {isDropdownVisible && (
+          <div className="dropdown">
+            {SPECIALITIES.filter((spec) =>
+              spec.toLowerCase().includes(searchText.toLowerCase())
+            ).map((spec) => (
               <div
                 key={spec}
                 className="dropdown-item"
-                onMouseDown={() => handleSelect(spec)}
+                onMouseDown={() => handleSearch(spec)}
               >
                 {spec}
               </div>
             ))}
           </div>
+        )}
+      </div>
+
+      <div className="doctor-results">
+        {filteredDoctors.length > 0 ? (
+          filteredDoctors.map((doc) => <DoctorCard key={doc.id} {...doc} />)
+        ) : (
+          <p>No doctors found.</p>
         )}
       </div>
     </div>
