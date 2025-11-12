@@ -49,10 +49,16 @@ const Navbar = () => {
             </button>
           </li>
           <li className="link-item">
-            <button onClick={() => handleNavigation("/appointment")} className="link-button">
+            <button onClick={() => handleNavigation("/Appointment")} className="link-button">
               Appointment
             </button>
           </li>
+          <li className="link-item">
+            <button onClick={() => handleNavigation("/find-doctor")} className="link-button">
+              Find Doctor
+            </button>
+          </li>
+
           <li className="link-item">
             <button onClick={() => handleNavigation("/blog")} className="link-button">
               Health Blog
