@@ -73,7 +73,7 @@ const FindDoctorSearch = () => {
 
       <div className="doctor-results">
         {filteredDoctors.length > 0 ? (
-          filteredDoctors.map((doc) => <DoctorCard key={doc.id} {...doc} />)
+          filteredDoctors.map((doc,index) => <DoctorCard key={doc.id || index} {...doc} />)
         ) : (
           <p>No doctors found.</p>
         )}
