@@ -1,7 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import "./DoctorCard.css";
+import AppointmentForm from "../AppointmentForm/AppointmentForm";
 
 const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
+  const [showForm, setShowForm] = useState(false);
+  const [appointmentBooked, setAppointmentBooked] = useState(false);
+  const [appointmentDetails, setAppointmentDetails] = useState(null);
+
+  // When Book Appointment button is clicked
+  const handleBookClick = () => {
+    setShowForm(true);
+  };
+
+  // When appointment form is submitted
+  const handleFormSubmit = (appointmentData) => {
+    setAppointmentDetails(appointmentData);
+    setAppointmentBooked(true);
+    setShowForm(false);
+    alert(
+      `✅ Appointment booked with Dr. ${appointmentData.doctorName} on ${appointmentData.appointmentDate} at ${appointmentData.appointmentTime}.`
+    );
+  };
+
+  // Cancel appointment
+  const handleCancelAppointment = () => {
+    if (window.confirm("Are you sure you want to cancel your appointment?")) {
+      setAppointmentBooked(false);
+      setAppointmentDetails(null);
+      alert("❌ Your appointment has been cancelled.");
+    }
+  };
+
   return (
     <div className="doctor-card-container">
       <div className="doctor-card-details-container">
@@ -33,14 +62,45 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
           <div className="doctor-card-detail-ratings">Ratings: {ratings}</div>
         </div>
 
-        {/* Book Appointment Button */}
-        <div>
-          <button className="book-appointment-btn">
-            <div>Book Appointment</div>
-            <div>No Booking Fee</div>
-          </button>
+        {/* Doctor card options (Book / Cancel) */}
+        <div className="doctor-card-options-container">
+          {!appointmentBooked && (
+            <button className="book-appointment-btn" onClick={handleBookClick}>
+              <div>Book Appointment</div>
+              <div>No Booking Fee</div>
+            </button>
+          )}
+
+          {appointmentBooked && (
+            <>
+              <div className="appointment-confirmation">
+                <p>
+                  <strong>Appointment Confirmed:</strong>{" "}
+                  {appointmentDetails.appointmentDate} at{" "}
+                  {appointmentDetails.appointmentTime}
+                </p>
+              </div>
+              <button
+                className="cancel-appointment-btn"
+                onClick={handleCancelAppointment}
+              >
+                Cancel Appointment
+              </button>
+            </>
+          )}
         </div>
       </div>
+
+      {/* Appointment Form Section */}
+      {showForm && !appointmentBooked && (
+        <div className="appointment-form-container">
+          <AppointmentForm
+            doctorName={name}
+            doctorSpeciality={speciality}
+            onSubmit={handleFormSubmit}
+          />
+        </div>
+      )}
     </div>
   );
 };

@@ -75,3 +75,36 @@
   font-size: 12px;
   font-weight: 400;
 }
+
+.doctor-card-options-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.book-appointment-btn,
+.cancel-appointment-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.cancel-appointment-btn {
+  background-color: #e74c3c;
+}
+
+.book-appointment-btn:hover,
+.cancel-appointment-btn:hover {
+  opacity: 0.85;
+}
+
+.appointment-confirmation {
+  font-size: 0.9rem;
+  color: #2c3e50;
+}
