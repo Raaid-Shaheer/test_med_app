@@ -1,36 +1,37 @@
-import React, { useEffect, useState } from "react"; 
-import "./Navbar.css";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./Navbar.css";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
+  const [showDropdown, setShowDropdown] = useState(false);
 
   useEffect(() => {
     const token = sessionStorage.getItem("auth-token");
     const email = sessionStorage.getItem("email");
     if (token && email) {
       setIsLoggedIn(true);
-      const nameFromEmail = email.split("@")[0]; // Extract name
+      const nameFromEmail = sessionStorage.getItem("name") || email.split("@")[0];
       setUsername(nameFromEmail);
     }
   }, []);
 
   const handleNavigation = (path) => {
     navigate(path);
+    setShowDropdown(false);
   };
 
   const handleLogout = () => {
     sessionStorage.clear();
     setIsLoggedIn(false);
     navigate("/");
-    window.location.reload();
+    setShowDropdown(false);
   };
 
   return (
     <nav className="navbar-container">
-      {/* Logo */}
       <div className="nav-logo-container">
         <span>Stay Healthy</span>
         <img
@@ -40,75 +41,39 @@ const Navbar = () => {
         />
       </div>
 
-      {/* Navigation Links */}
-      <div className="nav-links">
-        <ul>
-          <li className="link-item">
-            <button onClick={() => handleNavigation("/")} className="link-button">
-              Home
-            </button>
-          </li>
-          <li className="link-item">
-            <button onClick={() => handleNavigation("/appointments")} className="link-button">
-              Appointment
-            </button>
-          </li>
+      <ul className="nav-links">
+        <li><button onClick={() => handleNavigation("/")} className="link-button">Home</button></li>
+        <li><button onClick={() => handleNavigation("/appointments")} className="link-button">Appointment</button></li>
+        <li><button onClick={() => handleNavigation("/blog")} className="link-button">Health Blog</button></li>
+        <li><button onClick={() => handleNavigation("/reviewspage")} className="link-button">Reviews</button></li>
+        <li><button onClick={() => handleNavigation("/instant-consultation")} className="link-button">Instant Consultation</button></li>
 
-          <li className="link-item">
-            <button onClick={() => handleNavigation("/blog")} className="link-button">
-              Health Blog
-            </button>
-          </li>
-          <li className="link-item">
-            <button onClick={() => handleNavigation("/reviewspage")} className="link-button">
-              Reviews
-            </button>
-          </li>
-          
-          {/* 🔹 Instant Consultation Link Added */}
-          <li className="link-item">
-            <button 
-              onClick={() => handleNavigation("/instant-consultation")} 
-              className="link-button" 
-            >
-              Instant Consultation
-            </button>
-          </li>
+        {!isLoggedIn ? (
+          <>
+            <li><button onClick={() => handleNavigation("/signup")} className="circle">Sign Up</button></li>
+            <li><button onClick={() => handleNavigation("/login")} className="circle">Login</button></li>
+          </>
+        ) : (
+          <li className="profile-menu">
+            <button className="profile-btn">{username} ▾</button>
 
-          {/* Conditional Rendering */}
-          {!isLoggedIn ? (
-            <>
-              <li>
-                <button onClick={() => handleNavigation("/signup")} className="circle">
-                  Sign Up
-                </button>
-              </li>
-              <li>
-                <button onClick={() => handleNavigation("/login")} className="circle">
-                  Login
-                </button>
-              </li>
-            </>
-          ) : (
-            <>
-              <li className="profile-menu">
-                <button className="profile-btn">{username} ▾</button>
+        <div className="profile-panel">
+          <button onClick={() => handleNavigation("/profile")} className="panel-item">
+            Your Profile
+          </button>
 
-                <div className="profile-panel">
-                  <button onClick={() => handleNavigation("/profile")} className="panel-item">
-                    View Profile
-                  </button>
+          <button onClick={() => handleNavigation("/reports")} className="panel-item">
+            Your Reports
+          </button>
 
-                  <button onClick={handleLogout} className="panel-item logout-item">
-                    Logout
-                  </button>
-                </div>
-              </li>
+          <button onClick={handleLogout} className="panel-item logout-item">
+            Logout
+          </button>
+        </div>
+      </li>
 
-            </>
-          )}
-        </ul>
-      </div>
+        )}
+      </ul>
     </nav>
   );
 };
