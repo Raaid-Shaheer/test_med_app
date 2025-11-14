@@ -13,9 +13,9 @@ const ReviewForm = ({ doctorName, doctorSpeciality, onSubmit, onCancel }) => {
       doctorName,
       doctorSpeciality,
       rating,
-      reviewText
+      reviewText,
     });
-    // Optionally, reset form fields
+    // Reset form fields
     setReviewerName("");
     setReviewText("");
     setRating(1);
@@ -24,7 +24,7 @@ const ReviewForm = ({ doctorName, doctorSpeciality, onSubmit, onCancel }) => {
   return (
     <div className="review-form-container">
       <h3>Provide Review for {doctorName}</h3>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="review-form">
         <label>
           Your Name:
           <input
@@ -37,9 +37,14 @@ const ReviewForm = ({ doctorName, doctorSpeciality, onSubmit, onCancel }) => {
 
         <label>
           Rating (1-5):
-          <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+          <select
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+          >
             {[1, 2, 3, 4, 5].map((num) => (
-              <option key={num} value={num}>{num}</option>
+              <option key={num} value={num}>
+                {num}
+              </option>
             ))}
           </select>
         </label>
@@ -55,7 +60,9 @@ const ReviewForm = ({ doctorName, doctorSpeciality, onSubmit, onCancel }) => {
 
         <div className="review-form-buttons">
           <button type="submit">Submit</button>
-          <button type="button" onClick={onCancel}>Cancel</button>
+          <button type="button" className="cancel-button" onClick={onCancel}>
+            Cancel
+          </button>
         </div>
       </form>
     </div>
