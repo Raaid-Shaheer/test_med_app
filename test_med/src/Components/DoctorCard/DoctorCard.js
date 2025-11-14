@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./DoctorCard.css";
 import AppointmentForm from "../AppointmentForm/AppointmentForm";
 
@@ -6,6 +6,16 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
   const [showForm, setShowForm] = useState(false);
   const [appointmentBooked, setAppointmentBooked] = useState(false);
   const [appointmentDetails, setAppointmentDetails] = useState(null);
+
+  // Add doctor to global list for Reviews page
+  useEffect(() => {
+    const savedDoctors = JSON.parse(localStorage.getItem("doctorsList")) || [];
+    const exists = savedDoctors.some(d => d.name === name);
+    if (!exists) {
+      savedDoctors.push({ name, speciality });
+      localStorage.setItem("doctorsList", JSON.stringify(savedDoctors));
+    }
+  }, [name, speciality]);
 
   // When Book Appointment button is clicked
   const handleBookClick = () => {
@@ -20,7 +30,7 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
 
     // Save data for Notification component
     const userEmail = sessionStorage.getItem("email") || "patient@example.com";
-    localStorage.setItem("doctorData", JSON.stringify({ name,speciality }));
+    localStorage.setItem("doctorData", JSON.stringify({ name, speciality }));
     localStorage.setItem(name, JSON.stringify({
       date: appointmentData.appointmentDate,
       time: appointmentData.appointmentTime
@@ -30,11 +40,8 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
 
   // Cancel appointment
   const handleCancelAppointment = () => {
-    // Directly cancel appointment without popup
     setAppointmentBooked(false);
     setAppointmentDetails(null);
-
-    // Remove data from storage so Notification disappears
     localStorage.removeItem(name);
   };
 

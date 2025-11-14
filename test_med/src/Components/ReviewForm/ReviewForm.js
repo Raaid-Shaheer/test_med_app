@@ -1,49 +1,61 @@
 import React, { useState } from "react";
 import "./ReviewForm.css";
 
-const ReviewForm = ({ doctorName, doctorSpeciality, onClose }) => {
+const ReviewForm = ({ doctorName, doctorSpeciality, onSubmit, onCancel }) => {
+  const [reviewerName, setReviewerName] = useState("");
   const [reviewText, setReviewText] = useState("");
+  const [rating, setRating] = useState(1);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // Save review in localStorage with key 'review-DoctorName'
-    if (reviewText.trim() !== "") {
-      localStorage.setItem(`review-${doctorName}`, reviewText.trim());
-      setReviewText("");
-      onClose(); // Close popup
-    }
+    onSubmit({
+      reviewerName,
+      doctorName,
+      doctorSpeciality,
+      rating,
+      reviewText
+    });
+    // Optionally, reset form fields
+    setReviewerName("");
+    setReviewText("");
+    setRating(1);
   };
 
   return (
     <div className="review-form-container">
-      <h3>Provide Feedback</h3>
-      <p>
-        <strong>Doctor:</strong> {doctorName}
-      </p>
-      <p>
-        <strong>Speciality:</strong> {doctorSpeciality}
-      </p>
-
+      <h3>Provide Review for {doctorName}</h3>
       <form onSubmit={handleSubmit}>
-        <textarea
-          placeholder="Write your review here..."
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
-          rows="5"
-          required
-        />
+        <label>
+          Your Name:
+          <input
+            type="text"
+            value={reviewerName}
+            onChange={(e) => setReviewerName(e.target.value)}
+            required
+          />
+        </label>
+
+        <label>
+          Rating (1-5):
+          <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+            {[1, 2, 3, 4, 5].map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          Review:
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            required
+          />
+        </label>
+
         <div className="review-form-buttons">
-          <button type="submit" className="submit-review-btn">
-            Submit Review
-          </button>
-          <button
-            type="button"
-            className="cancel-review-btn"
-            onClick={onClose}
-          >
-            Cancel
-          </button>
+          <button type="submit">Submit</button>
+          <button type="button" onClick={onCancel}>Cancel</button>
         </div>
       </form>
     </div>

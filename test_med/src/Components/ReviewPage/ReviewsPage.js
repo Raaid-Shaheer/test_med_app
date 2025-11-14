@@ -1,34 +1,49 @@
 import React, { useState, useEffect } from "react";
-import ReviewForm from "../ReviewForm/ReviewForm"; // Your existing ReviewForm
+import ReviewForm from "../ReviewForm/ReviewForm";
 import "./ReviewsPage.css";
 
 const ReviewsPage = () => {
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [doctorsList, setDoctorsList] = useState([]);
+  const [reviews, setReviews] = useState({});
+  const [activeDoctor, setActiveDoctor] = useState(null);
 
-  // Load doctors list from localStorage or define static list
+  // Load doctors and reviews from localStorage on mount
   useEffect(() => {
-    const storedDoctors = JSON.parse(localStorage.getItem("doctorsList"));
-    if (storedDoctors && storedDoctors.length > 0) {
-      setDoctorsList(storedDoctors);
-    } else {
-      // Static example if no data in localStorage
-      setDoctorsList([
-        { name: "Dr. John Doe", speciality: "Cardiologist" },
-        { name: "Dr. Jane Smith", speciality: "Dermatologist" },
-        { name: "Dr. Alex Brown", speciality: "Neurologist" },
-      ]);
-    }
+    const storedDoctors = JSON.parse(localStorage.getItem("doctorsList")) || [];
+    setDoctorsList(storedDoctors);
+
+    const storedReviews = JSON.parse(localStorage.getItem("doctorReviews")) || {};
+    setReviews(storedReviews);
   }, []);
+
+  const handleOpenForm = (doctor) => {
+    setActiveDoctor(doctor);
+  };
+
+  const handleSubmitReview = (reviewData) => {
+    const updatedReviews = {
+      ...reviews,
+      [reviewData.doctorName]: reviewData
+    };
+
+    // Save to state and localStorage
+    setReviews(updatedReviews);
+    localStorage.setItem("doctorReviews", JSON.stringify(updatedReviews));
+
+    setActiveDoctor(null); // Close form after submit
+  };
+
+  const handleCancelForm = () => {
+    setActiveDoctor(null); // Close form
+  };
 
   return (
     <div className="reviews-page-container">
       <h2>Doctor Reviews</h2>
-
-      <table className="reviews-table">
+      <table>
         <thead>
           <tr>
-            <th>Sr.No</th>
+            <th>Sr. No</th>
             <th>Doctor Name</th>
             <th>Speciality</th>
             <th>Provide Feedback</th>
@@ -36,36 +51,44 @@ const ReviewsPage = () => {
           </tr>
         </thead>
         <tbody>
-          {doctorsList.map((doctor, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{doctor.name}</td>
-              <td>{doctor.speciality}</td>
-              <td>
-                <button
-                  className="feedback-btn"
-                  onClick={() => setSelectedDoctor(doctor)}
-                >
-                  Click Here
-                </button>
-              </td>
-              <td>
-                {localStorage.getItem(`review-${doctor.name}`) || "No Review"}
+          {doctorsList.length > 0 ? (
+            doctorsList.map((doctor, index) => (
+              <tr key={doctor.name}>
+                <td>{index + 1}</td>
+                <td>{doctor.name}</td>
+                <td>{doctor.speciality}</td>
+                <td>
+                  <button
+                    disabled={!!reviews[doctor.name]} // Disable if review exists
+                    onClick={() => handleOpenForm(doctor)}
+                  >
+                    Click Here
+                  </button>
+                </td>
+                <td>
+                  {reviews[doctor.name]
+                    ? `${reviews[doctor.name].reviewText} (Rating: ${reviews[doctor.name].rating}/5)`
+                    : "-"}
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="5" style={{ textAlign: "center" }}>
+                No doctors available
               </td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
 
-      {/* Review form popup */}
-      {selectedDoctor && (
-        <div className="review-form-popup">
-          <ReviewForm
-            doctorName={selectedDoctor.name}
-            doctorSpeciality={selectedDoctor.speciality}
-            onClose={() => setSelectedDoctor(null)}
-          />
-        </div>
+      {activeDoctor && (
+        <ReviewForm
+          doctorName={activeDoctor.name}
+          doctorSpeciality={activeDoctor.speciality}
+          onSubmit={handleSubmitReview}
+          onCancel={handleCancelForm}
+        />
       )}
     </div>
   );

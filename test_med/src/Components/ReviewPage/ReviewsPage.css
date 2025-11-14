@@ -59,3 +59,9 @@
   width: 400px;
   max-width: 90%;
 }
+/* Disabled button style */
+button:disabled {
+  background-color: #ccc; /* Greyed out */
+  color: #666;
+  cursor: not-allowed;
+}
