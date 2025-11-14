@@ -8,12 +8,15 @@ import SignUpPage from "./Components/Sign_Up/Sign_Up";       // Sign_Up.js
 import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultationBooking/InstantConsultation';
 import FindDoctorSearch from "./Components/FindDoctorSearch/FindDoctorSearch";
 import BookingConsultation from "./Components/BookingConsultation";
+import Notification from "./Components/Notifications/Notifications";
 
 
 function App() {
   return (
     <BrowserRouter>
+    
       <Navbar /> {/* Navbar will render on every page */}
+      <Notification>  
       <Routes>
         <Route path="/" element={<LandingPage />} />          {/* Home / Landing page */}
         <Route path="/login" element={<LoginPage />} />      {/* Login page */}
@@ -21,6 +24,8 @@ function App() {
         <Route path="/instant-consultation" element={<InstantConsultation />} />
         <Route path="/appointments" element={<BookingConsultation />} />
       </Routes>
+    </Notification>
+      
     </BrowserRouter>
   );
 }

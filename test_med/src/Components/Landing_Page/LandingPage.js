@@ -27,7 +27,7 @@ const LandingPage = () => {
           </h4>
 
           {/* Get Started Button */}
-          <a href="#services">
+          <a href="appointments">
             <button className="button">Get Started</button>
           </a>
         </div>

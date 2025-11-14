@@ -1,0 +1,55 @@
+/* Notification container position */
+.notification-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Appointment card styling */
+.appointment-card {
+  background: #ffffff;
+  width: 320px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  border-left: 5px solid #4a90e2;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover animation */
+.appointment-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Title styling */
+.appointment-card__title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 12px;
+}
+
+/* Message text styling */
+.appointment-card__message {
+  font-size: 15px;
+  margin: 6px 0;
+  color: #555;
+}
+
+.appointment-card__message strong {
+  color: #222;
+}
+
+/* Smooth fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

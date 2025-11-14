@@ -17,18 +17,25 @@ const DoctorCard = ({ name, speciality, experience, ratings, profilePic }) => {
     setAppointmentDetails(appointmentData);
     setAppointmentBooked(true);
     setShowForm(false);
-    alert(
-      `✅ Appointment booked with Dr. ${appointmentData.doctorName} on ${appointmentData.appointmentDate} at ${appointmentData.appointmentTime}.`
-    );
+
+    // Save data for Notification component
+    const userEmail = sessionStorage.getItem("email") || "patient@example.com";
+    localStorage.setItem("doctorData", JSON.stringify({ name,speciality }));
+    localStorage.setItem(name, JSON.stringify({
+      date: appointmentData.appointmentDate,
+      time: appointmentData.appointmentTime
+    }));
+    sessionStorage.setItem("email", userEmail);
   };
 
   // Cancel appointment
   const handleCancelAppointment = () => {
-    if (window.confirm("Are you sure you want to cancel your appointment?")) {
-      setAppointmentBooked(false);
-      setAppointmentDetails(null);
-      alert("❌ Your appointment has been cancelled.");
-    }
+    // Directly cancel appointment without popup
+    setAppointmentBooked(false);
+    setAppointmentDetails(null);
+
+    // Remove data from storage so Notification disappears
+    localStorage.removeItem(name);
   };
 
   return (

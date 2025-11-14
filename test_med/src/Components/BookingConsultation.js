@@ -42,8 +42,10 @@ const BookingConsultation = () => {
     );
 
     setFilteredDoctors(filtered);
-  };
 
+    
+  };
+  
   return (
     <div className="booking-consultation-container">
       <h2>Book a Consultation</h2>
