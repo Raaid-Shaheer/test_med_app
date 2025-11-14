@@ -69,8 +69,7 @@ const Navbar = () => {
           <li className="link-item">
             <button 
               onClick={() => handleNavigation("/instant-consultation")} 
-              className="link-button"
-              
+              className="link-button" 
             >
               Instant Consultation
             </button>
@@ -92,14 +91,20 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li className="link-item" style={{ marginRight: "10px", color: "#2190FF" }}>
-                {username}
+              <li className="profile-menu">
+                <button className="profile-btn">{username} ▾</button>
+
+                <div className="profile-panel">
+                  <button onClick={() => handleNavigation("/profile")} className="panel-item">
+                    View Profile
+                  </button>
+
+                  <button onClick={handleLogout} className="panel-item logout-item">
+                    Logout
+                  </button>
+                </div>
               </li>
-              <li>
-                <button onClick={handleLogout} className="circle">
-                  Logout
-                </button>
-              </li>
+
             </>
           )}
         </ul>
