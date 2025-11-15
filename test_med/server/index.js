@@ -1,33 +1,27 @@
 const express = require('express');
 const cors = require('cors');
-const http = require('http');
-const connectToMongo = require('./db');
+const path = require('path');
+
 const app = express();
-
-
-app.set('view engine','ejs')
-app.use(express.static('public'))
-
 const PORT = process.env.PORT || 8181;
-
 
 // Middleware
 app.use(express.json());
 app.use(cors());
 
-// Connect to MongoDB
-connectToMongo();
+// Serve React static build files
+app.use(express.static(path.join(__dirname, 'build')));
 
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-
-app.get('/', (req, res) => {
-    res.send('Hello World!');
+// Catch-all route for SPA (React Router)
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
+// Default route (optional)
+app.get('/', (req, res) => {
+  res.send('Server is running...');
+});
 
-
-  // Start the server
 app.listen(PORT, () => {
-console.log(`Server is running on port http://localhost:${PORT}`);
+  console.log(`Server running at http://localhost:${PORT}`);
 });
